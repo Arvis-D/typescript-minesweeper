@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+@-webkit-keyframes on-open {
+  0% {
+    background: #818181;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes on-open {
+  0% {
+    background: #818181;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@-webkit-keyframes put-flag {
+  0% {
+    -webkit-transform: translateX(-10px) rotate(-70deg);
+            transform: translateX(-10px) rotate(-70deg);
+  }
+  100% {
+    -webkit-transform: translateX(0px) rotate(0deg);
+            transform: translateX(0px) rotate(0deg);
+  }
+}
+
+@keyframes put-flag {
+  0% {
+    -webkit-transform: translateX(-10px) rotate(-70deg);
+            transform: translateX(-10px) rotate(-70deg);
+  }
+  100% {
+    -webkit-transform: translateX(0px) rotate(0deg);
+            transform: translateX(0px) rotate(0deg);
+  }
+}
+
+#minesweeper {
+  font-family: 'Tahoma';
+}
+
+#minesweeper #header {
+  background: #818181;
+}
+
+#minesweeper #header input[type=text] {
+  border: none;
+  background: #97e8ff;
+  border: none;
+}
+
+#minesweeper #minefield .tile {
+  outline: none;
+  float: right;
+  background: #818181;
+  border: 1px solid white;
+  -webkit-box-shadow: 0 0 4px #818181;
+          box-shadow: 0 0 4px #818181;
+  font-weight: bold;
+  position: relative;
+}
+
+#minesweeper #minefield .tile.opened {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: none;
+  background: #e4e4e4;
+}
+
+#minesweeper #minefield .tile.opened::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  -webkit-animation-name: on-open;
+          animation-name: on-open;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  content: '';
+}
+
+#minesweeper #minefield .tile.flag::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  content: '';
+  background-image: url(./flag3.png);
+  -webkit-animation-name: put-flag;
+          animation-name: put-flag;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+}
+/*# sourceMappingURL=style.css.map */
