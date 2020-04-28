@@ -5,6 +5,12 @@
           box-sizing: border-box;
 }
 
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 @-webkit-keyframes on-open {
   0% {
     background: #818181;
@@ -45,17 +51,54 @@
   }
 }
 
+.btn {
+  height: 4rem;
+  border-radius: 2rem;
+  text-align: center;
+  font-size: 2em;
+  outline: none;
+  border: none;
+  position: relative;
+  color: #e4e4e4;
+  background: #333333;
+}
+
+.btn img {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 2rem;
+}
+
+.btn.btn-round {
+  width: 4rem;
+}
+
 #minesweeper {
-  font-family: 'Tahoma';
+  padding: 1rem;
+  -webkit-box-shadow: 0 0 1em;
+          box-shadow: 0 0 1em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+  -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.192);
+          box-shadow: 0 0 1em rgba(0, 0, 0, 0.192);
+  background: #e4e4e4;
+  font-family: "Tahoma";
+  display: inline-block;
 }
 
 #minesweeper #header {
+  margin-bottom: 1rem;
   background: #818181;
+  padding: 0.5rem;
 }
 
-#minesweeper #header input[type=text] {
+#minesweeper #header input[type="text"] {
   border: none;
-  background: #97e8ff;
+  background: #e4e4e4;
   border: none;
 }
 
@@ -88,9 +131,9 @@
           animation-name: on-open;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
-  -webkit-animation-duration: .5s;
-          animation-duration: .5s;
-  content: '';
+  -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
+  content: "";
 }
 
 #minesweeper #minefield .tile.flag::after {
@@ -101,13 +144,13 @@
   width: 100%;
   height: 100%;
   background-size: cover;
-  content: '';
+  content: "";
   background-image: url(./flag3.png);
   -webkit-animation-name: put-flag;
           animation-name: put-flag;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
-  -webkit-animation-duration: .5s;
-          animation-duration: .5s;
+  -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
 }
 /*# sourceMappingURL=style.css.map */

@@ -4,7 +4,7 @@ export default class Mediator
 {
     static participants: {
         [event: string] : Array<Participant>
-    } 
+    } = {}
 
     static notify (event: string, data: string): void
     {

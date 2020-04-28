@@ -1,0 +1,18 @@
+@keyframes on-open {
+    0% {
+        background: $theme;
+    }
+
+    100% {
+        background: transparent;
+    }
+}
+
+@keyframes put-flag {
+    0% {
+        transform: translateX(-10px) rotate(-70deg);
+    }
+    100% {
+        transform: translateX(0px) rotate(0deg);
+    }
+}

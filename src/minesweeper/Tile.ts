@@ -37,7 +37,7 @@ export default class Tile
         if (condition === 'closed'){
             this.showTile();
             if (number === 0) {
-                neighbors.forEach((e) => {
+                neighbors.forEach((e, i) => {
                     setTimeout(() => {
                         e.showTiles();
                     }, 50);
@@ -62,11 +62,12 @@ export default class Tile
 
     private handleLeftClick(e: MouseEvent): void
     {
+        e.preventDefault();
+
         if (!Tile.gameStarted) {
             Tile.gameStarted = true;
             Mediator.notify('game started', this.pos)
         } else {
-            e.preventDefault();
             console.log(e);
             this.showTiles();
         }

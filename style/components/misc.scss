@@ -1,0 +1,16 @@
+$theme: #818181;
+$themeDarker: #333333;
+$themeLighter: rgb(228, 228, 228);
+$shadowColor: rgba(0, 0, 0, 0.192);
+$grey1: grey;
+$grey2: rgb(206, 206, 206);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+}

@@ -7,7 +7,7 @@ export default class Minefield implements Participant
     public dom: HTMLElement;
     public xWidth: number = 30;
     public yWidth: number = 16;
-    public mineProbability: number = 0.2;
+    public mineProbability: number = 0.1;
     public tiles: {
         [id: string]:  Tile
     } = {};
@@ -33,9 +33,15 @@ export default class Minefield implements Participant
         }
     }
 
-    private addMines(): void
+    private addMines(posToAvoid: string): void
     {
+        console.log(posToAvoid)
         let {tiles, xWidth, yWidth, mineProbability} = this;
+
+        var positions: Array<string> = [];
+        tiles[posToAvoid].neighbors.forEach(e => {
+            positions.push(e.pos)
+        })
 
         const totalTiles = xWidth * yWidth;
         const totalMines = Math.round(totalTiles * mineProbability);
@@ -44,7 +50,7 @@ export default class Minefield implements Participant
         while (currentMines !== totalMines) {
             let key = `${Math.round(Math.random() * (xWidth - 1))}|${Math.round(Math.random() * (yWidth - 1))}`
 
-            if(tiles[key].hasMine)
+            if(tiles[key].hasMine || positions.includes(key))
                 continue;
 
             tiles[key].hasMine = true;
@@ -114,19 +120,16 @@ export default class Minefield implements Participant
         this.dom.setAttribute('id', 'minefield');
     }
 
-    public listen(event: string, data: string): void
+    public listen(data: string, event: string): void
     {
+        console.log(data)
         this.startGame(data)
     }
 
     private startGame(tilePos: string): void
     {
-        // Opens an empty field on first click
-        do {
-            var minesAround = false;
-
-        } while (minesAround)
-
+        this.addMines(tilePos);
         this.addNumbers();
+        this.tiles[tilePos].showTiles();
     }
 }

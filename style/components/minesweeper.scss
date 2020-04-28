@@ -1,0 +1,67 @@
+#minesweeper {
+    padding: 1rem;
+    box-shadow: 0 0 1em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    box-shadow: 0 0 1em $shadowColor;
+    background: $themeLighter;
+    font-family: "Tahoma";
+    display: inline-block;
+    #header {
+        margin-bottom: 1rem;
+        background: $theme;
+        padding: 0.5rem;
+        input[type="text"] {
+            border: none;
+            background: $themeLighter;
+            border: none;
+        }
+    }
+    #minefield {
+        .tile {
+            outline: none;
+            float: right;
+            //border-radius: 1px;
+            background: $theme;
+            border: 1px solid rgb(255, 255, 255);
+            box-shadow: 0 0 4px $theme;
+            font-weight: bold;
+            position: relative;
+            &.opened {
+                box-shadow: none;
+                border-radius: none;
+                //border: solid 1px rgba(0,0,0,0.075);
+                background: $themeLighter;
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    animation-name: on-open;
+                    animation-fill-mode: forwards;
+                    animation-duration: 0.25s;
+                    content: "";
+                }
+            }
+            &.flag {
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    width: 100%;
+                    height: 100%;
+                    background-size: cover;
+                    content: "";
+                    background-image: url(./flag3.png);
+                    animation-name: put-flag;
+                    animation-fill-mode: forwards;
+                    animation-duration: 0.25s;
+                }
+            }
+        }
+    }
+}
