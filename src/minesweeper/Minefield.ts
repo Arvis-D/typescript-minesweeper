@@ -7,7 +7,7 @@ export default class Minefield implements Participant
     public dom: HTMLElement;
     public xWidth: number = 30;
     public yWidth: number = 16;
-    public mineProbability: number = 0.1;
+    public mineProbability: number = 0.2;
     public tiles: {
         [id: string]:  Tile
     } = {};

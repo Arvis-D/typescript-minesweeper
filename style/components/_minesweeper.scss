@@ -6,16 +6,45 @@
     margin-top: 2rem;
     box-shadow: 0 0 1em $shadowColor;
     background: $themeLighter;
-    font-family: "Tahoma";
+    font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
     #header {
+        & > * {
+            margin: 0 1rem;
+        }
         margin-bottom: 1rem;
         background: $theme;
         padding: 0.5rem;
+        display: flex;
+        justify-content: center;
         input[type="text"] {
             border: none;
             background: $themeLighter;
             border: none;
+        }
+        #reset {
+            background-position: center;
+            background-size: cover;
+        }
+        .counter {
+            background-color: $themeDarker;
+            height: 4rem;
+            width: 16rem;
+            border-radius: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $themeLighter;
+            font-size: 1.5rem;
+            .counter-number {
+                font-family: "Courier New", Courier, monospace;
+                font-weight: bold;
+                color: greenyellow;
+                padding-left: 0.3rem;
+            }
+        }
+        #settings {
+            position: a;
         }
     }
     #minefield {
@@ -56,7 +85,7 @@
                     height: 100%;
                     background-size: cover;
                     content: "";
-                    background-image: url(./flag3.png);
+                    background-image: url(./img/flag3.png);
                     animation-name: put-flag;
                     animation-fill-mode: forwards;
                     animation-duration: 0.25s;

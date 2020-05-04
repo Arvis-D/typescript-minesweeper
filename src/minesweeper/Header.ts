@@ -20,9 +20,10 @@ export default class Header
     {
         this.dom = document.createElement('div');
         this.dom.setAttribute('id', 'header');
-        this.dom.appendChild(this.counter.dom);
-        this.dom.appendChild(this.timer.dom);
-        this.dom.appendChild(this.reset.dom);
+
         this.dom.appendChild(this.settings.dom);
+        this.dom.appendChild(this.counter.dom);
+        this.dom.appendChild(this.reset.dom);
+        this.dom.appendChild(this.timer.dom);
     }
 }

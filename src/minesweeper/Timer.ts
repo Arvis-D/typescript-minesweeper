@@ -12,6 +12,7 @@ export default class Timer
         this.dom = document.createElement('div');
         this.dom.classList.add('counter');
         this.dom.setAttribute('id', 'time-counter');
+        this.dom.innerHTML = this.getInnerHTML();
     }
 
     private count(): void
@@ -19,5 +20,12 @@ export default class Timer
         setInterval(() => {
 
         }, 1000)
+    }
+
+    private getInnerHTML(): string
+    {
+        return `
+        <h5>Time elapsed:</h5>
+        <div class="counter-number">12</div>`
     }
 }

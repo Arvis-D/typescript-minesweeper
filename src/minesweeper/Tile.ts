@@ -112,7 +112,7 @@ export default class Tile
 
     private setStyle(): void
     {
-        let {dom, number} = this;
+        let {dom} = this;
 
         //dom.style.borderWidth = `${Tile.borderWidth}px`;
         dom.style.height = `${Tile.size}px`;
