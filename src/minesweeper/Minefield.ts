@@ -5,46 +5,50 @@ import Mediator from "../utils/Mediator";
 export default class Minefield implements Participant
 {
     public dom: HTMLElement;
-    public xWidth: number = 30;
-    public yWidth: number = 16;
-    public mineProbability: number = 0.2;
     public tiles: {
         [id: string]:  Tile
-    } = {};
+    };
 
-    constructor()
-    {
+    constructor(
+        public xWidth:number,
+        public yWidth : number,
+        public mineProbability: number,
+        public tileSize: number
+    ) {
         this.setDom();
         this.setStyle();
         this.createTiles();
         this.addNeighbors();
         this.showTiles();
 
-        Mediator.addParticipant('game started', this);
+        Mediator.addParticipant('counter zero', this);
     }
 
-    private createTiles(): void
+    public createTiles(): void
     {
+        this.tiles = {};
+        Tile.atLeastOneOpened = false;
+
         for (let i = 0; i < this.yWidth; i++) {
             for (let j = 0; j < this.xWidth; j++) {
                 let pos = `${j}|${i}`;
                 this.tiles[pos] = new Tile(pos);
+                this.tiles[pos].setStyle(this.tileSize);
             }
         }
     }
 
-    private addMines(posToAvoid: string): void
+    public addMines(posToAvoid: string): void
     {
-        console.log(posToAvoid)
-        let {tiles, xWidth, yWidth, mineProbability} = this;
+        let {tiles, xWidth, yWidth} = this;
 
         var positions: Array<string> = [];
+        positions.push(posToAvoid);
         tiles[posToAvoid].neighbors.forEach(e => {
             positions.push(e.pos)
         })
 
-        const totalTiles = xWidth * yWidth;
-        const totalMines = Math.round(totalTiles * mineProbability);
+        const totalMines = this.getMineCount();
         let currentMines = 0;
 
         while (currentMines !== totalMines) {
@@ -58,7 +62,7 @@ export default class Minefield implements Participant
         }
     }
 
-    private addNeighbors(): void
+    public addNeighbors(): void
     {
         let {tiles, xWidth, yWidth} = this;
 
@@ -80,7 +84,7 @@ export default class Minefield implements Participant
         })
     }
 
-    private addNumbers(): void
+    public addNumbers(): void
     {
         let {tiles} = this;
 
@@ -97,21 +101,19 @@ export default class Minefield implements Participant
         })
     }
 
-    private showTiles(): void 
+    public showTiles(): void 
     {
-        let {tiles, dom} = this;
-
-        Object.keys(tiles).forEach(e => {
-            dom.appendChild(tiles[e].dom);
+        Object.values(this.tiles).forEach(e => {
+            this.dom.appendChild(e.dom);
         })
     }
 
-    private setStyle(): void
+    public setStyle(): void
     {
-        let {dom, xWidth, yWidth} = this;
+        let {dom, xWidth, yWidth, tileSize} = this;
 
-        dom.style.width = `${Tile.totalSize() * xWidth}px`;
-        dom.style.height = `${Tile.totalSize() * yWidth}px`;
+        dom.style.width = `${tileSize * xWidth}px`;
+        dom.style.height = `${tileSize * yWidth}px`;
     }
 
     private setDom(): void
@@ -120,16 +122,40 @@ export default class Minefield implements Participant
         this.dom.setAttribute('id', 'minefield');
     }
 
-    public listen(data: string, event: string): void
+    public removeTilesFromDom(): void
     {
-        console.log(data)
-        this.startGame(data)
+        while (this.dom.lastChild) {
+            this.dom.removeChild(this.dom.lastChild);
+        }
     }
 
-    private startGame(tilePos: string): void
+    public getMineCount(): number
     {
-        this.addMines(tilePos);
-        this.addNumbers();
-        this.tiles[tilePos].showTiles();
+        return Math.round(this.xWidth * this.yWidth * this.mineProbability);
+    }
+
+    public showAllMines(): void
+    {
+        Object.values(this.tiles).forEach((e) => {
+            if (e.hasMine && e.condition !== 'flag') {
+                e.dom.classList.add('mine');
+                e.showTile();
+            } else if (!e.hasMine && e.condition === 'flag') {
+                e.dom.classList.remove('flag');
+                e.showTile();
+            }
+        });
+    }
+
+    public listen(event: string, data: string): void
+    {
+        this.checkVictory();
+    }
+
+    private checkVictory(): void
+    {
+        if (!Object.values(this.tiles).filter(e => e.hasMine && e.condition !== 'flag').length) {
+            Mediator.notify('victory');
+        }
     }
 }

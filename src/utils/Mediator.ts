@@ -6,10 +6,15 @@ export default class Mediator
         [event: string] : Array<Participant>
     } = {}
 
-    static notify (event: string, data: string): void
+    static notify (event: string, data: string = null): void
     {
+        if (!this.participants[event]) {
+            console.log(`Error: nobody is listening to "${event}" event`);
+            return;
+        }
+
         this.participants[event].forEach(e => {
-            e.listen(data, event);
+            e.listen(event, data);
         });
     }
 

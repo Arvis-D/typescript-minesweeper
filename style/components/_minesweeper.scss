@@ -6,7 +6,6 @@
     margin-top: 2rem;
     box-shadow: 0 0 1em $shadowColor;
     background: $themeLighter;
-    font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
     #header {
         & > * {
@@ -23,6 +22,7 @@
             border: none;
         }
         #reset {
+            transition: background-image .2s ease-in-out;
             background-position: center;
             background-size: cover;
         }
@@ -48,6 +48,7 @@
         }
     }
     #minefield {
+        margin: 0 auto;
         .tile {
             outline: none;
             float: right;
@@ -90,6 +91,11 @@
                     animation-fill-mode: forwards;
                     animation-duration: 0.25s;
                 }
+            }
+            &.mine {
+                background-size: cover;
+                content: "*";
+                background-image: url(./img/mine.png);
             }
         }
     }

@@ -8,10 +8,10 @@ export default class Header
     public dom: HTMLElement;
 
     constructor(
-        private counter: Counter,
-        private reset: Reset,
-        private timer: Timer,
-        private settings: Settings,
+        public counter: Counter,
+        public reset: Reset,
+        public timer: Timer,
+        public settings: Settings,
     ) {
         this.createDom();
     }

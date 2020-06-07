@@ -11,15 +11,18 @@ export default class Factory
 {
     public static create(dom: HTMLElement): Minesweeper
     {
+        let settings = new Settings;
+        let {xWidth, yWidth, probability, tileSize} = settings.values;
+
         return new Minesweeper(
             dom,
             new Header(
                 new Counter,
                 new Reset,
                 new Timer,
-                new Settings
+                settings
             ),
-            new Minefield
+            new Minefield(xWidth, yWidth, probability, tileSize)
         )
     }
 }

@@ -8,10 +8,9 @@ export default class Tile
     public hasMine: boolean = false;
     public neighbors: Array<Tile> = [];
 
-    public static borderWidth = 10;
-    public static size: number = 40;
-    public static gameStarted: boolean = false;
-    public static colors: {[num: number]: string} = {
+    public static active: boolean = true
+    public static atLeastOneOpened: boolean = false;
+    public static readonly colors: {[num: number]: string} = {
         0: 'white',
         1: 'blue',
         2: 'green',
@@ -20,14 +19,12 @@ export default class Tile
         5: 'brown',
         6: 'darkcyan',
         7: 'black',
-        8: 'grey',
-        9: 'cyan'
+        8: 'grey'
     }
 
     constructor(public pos: string)
     {
         this.setDom();
-        this.setStyle();
     }
 
     public showTiles(): void
@@ -60,40 +57,50 @@ export default class Tile
         }
     }
 
-    private handleLeftClick(e: MouseEvent): void
+    private handleMouseUp(e: MouseEvent): void
     {
-        e.preventDefault();
-
-        if (!Tile.gameStarted) {
-            Tile.gameStarted = true;
-            Mediator.notify('game started', this.pos)
-        } else {
-            console.log(e);
-            this.showTiles();
+        if (e.button === 0 && Tile.active) {
+            if (!Tile.atLeastOneOpened) {
+                Tile.atLeastOneOpened = true;
+                Mediator.notify('game started', this.pos)
+            } else if(this.hasMine && this.condition !== 'flag') {
+                Mediator.notify('mine stepped', this.pos)
+            } else {
+                Mediator.notify('tile opened');
+                this.showTiles();
+            }
         }
     }
 
-    private handleRightClick(e: MouseEvent): void
+    private handleContextMenu(e: MouseEvent): void
     {
-        e.preventDefault();
-        this.toggleFlag();
+        if (Tile.active) {
+            e.preventDefault();
+            this.toggleFlag();
+        }
     }
 
-    public static totalSize(): number
+    private handleMouseDown(e: MouseEvent): void
     {
-        return this.size// + this.borderWidth * 2;
+        if (this.condition === 'closed' && e.button === 0 && Tile.active) {
+            Mediator.notify('tile mousedown')
+        }
     }
 
     private toggleFlag(): void
     {
-        let {dom, condition} = this;
-
-        if (condition === 'opened') {
+        if (this.condition === 'opened') {
             return;
         }
 
-        dom.classList.toggle('flag');
-        this.condition = (condition === 'flag' ? 'closed' : 'flag');
+        this.dom.classList.toggle('flag');
+        if (this.condition === 'flag') {
+            this.condition = 'closed';
+            Mediator.notify('flag removed');
+        } else {
+            this.condition = 'flag';
+            Mediator.notify('flag posted');
+        }
     }
 
     private setDom(): void
@@ -102,21 +109,23 @@ export default class Tile
 
         this.dom = document.createElement('button');
         this.dom.classList.add('tile', condition);
-        this.dom.addEventListener('click', (e) => {
-            this.handleLeftClick(e);
+        this.dom.addEventListener('mouseup', (e) => {
+            this.handleMouseUp(e);
         })
         this.dom.addEventListener('contextmenu', (e) => {
-            this.handleRightClick(e);
+            this.handleContextMenu(e);
         })
+        this.dom.addEventListener('mousedown', (e) => {
+            this.handleMouseDown(e);
+        });
     }
 
-    private setStyle(): void
+    public setStyle(size: number): void
     {
         let {dom} = this;
 
-        //dom.style.borderWidth = `${Tile.borderWidth}px`;
-        dom.style.height = `${Tile.size}px`;
-        dom.style.width = `${Tile.size}px`;
-        dom.style.fontSize = `${Tile.size - 3}px`;
+        dom.style.height = `${size}px`;
+        dom.style.width = `${size}px`;
+        dom.style.fontSize = `${size - 3}px`;
     }
 }

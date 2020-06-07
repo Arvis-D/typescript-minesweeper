@@ -1,4 +1,4 @@
 export default interface Participant
 {
-    listen(data: string, eventName: string) : void;
+    listen(eventName: string, data: string) : void;
 }
