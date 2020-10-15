@@ -23,12 +23,12 @@ export default class Timer
         let {tickTimeLength} = this;
         const initial = Date.now();
 
-        return setInterval(() => {
+        return window.setInterval(() => {
             if (Date.now() > initial + tickTimeLength * this.ticks) {
                 this.ticks++;
                 this.dom.innerHTML = this.getInnerHTML();
             }
-        }, 1)
+        }, 1);
     }
 
     private getInnerHTML(): string
